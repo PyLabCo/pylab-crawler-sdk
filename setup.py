@@ -29,7 +29,7 @@ elif sys.argv[-1] == 'clean':
 
 setup(
     name="pylab-crawler-sdk",
-    version="1.0.0",
+    version="1.0.1",
     author="PyLab",
     author_email="yeongbin.jo@pylab.co",
     description="SDK for https://crawler.pylab.co",
