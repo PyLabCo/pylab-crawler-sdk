@@ -12,7 +12,7 @@ class Session(object):
         if not task_id:
             return
         try:
-            res = requests.post(f'{BASE_URL}/sdk/task-logs/?key={self.key}', data={
+            res = requests.post(f'{BASE_URL}/api/sdk/task-logs/?key={self.key}', data={
                 'task': task_id,
                 'content': content
             })
@@ -24,7 +24,7 @@ class Session(object):
         if not task_id:
             return True
         try:
-            res = requests.get(f'{BASE_URL}/sdk/task-terminations/?key={self.key}&task={task_id}')
+            res = requests.get(f'{BASE_URL}/api/sdk/task-terminations/?key={self.key}&task={task_id}')
             res.raise_for_status()
         except:
             return True
