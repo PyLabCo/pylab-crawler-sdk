@@ -2,6 +2,13 @@ import requests
 
 BASE_URL = 'https://crawler.pylab.co'
 
+LOG_CRITICAL = 50
+LOG_ERROR = 40
+LOG_WARNING = 30
+LOG_INFO = 20
+LOG_DEBUG = 10
+LOG_NOTSET = 0
+
 
 class Session(object):
     def __init__(self, key, api_server=BASE_URL):
@@ -20,7 +27,7 @@ class Session(object):
         except:
             raise PermissionError(f'API 키({key})가 유효하지 않습니다.')
 
-    def add_log(self, task_id: int, content: str, level=20) -> None:
+    def add_log(self, task_id: int, content: str, level=LOG_INFO) -> None:
         """로그를 기록"""
         if not task_id:
             return
