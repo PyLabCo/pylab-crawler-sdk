@@ -83,6 +83,7 @@ class Session(object):
         res = requests.post(
             f'{self.api_server}/api/sdk/task-types/?key={self.key}',
             data={
+                'group': self.group_id,
                 'moduleName': f'db.{self.group_name}.{module_name}',
                 'functionName': function_name,
                 'kwargs': kwargs,
