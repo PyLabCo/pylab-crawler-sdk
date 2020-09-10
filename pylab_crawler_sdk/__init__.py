@@ -62,20 +62,34 @@ class Session(object):
         data = res.json()
         return len(data) == 0
 
-    def create_task(self, description) -> int:
-        """태스크를 생성"""
-        res = requests.get(f'{BASE_URL}/api/sdk/task-types/?key={self.key}&description={description}')
-        res.raise_for_status()
-        task_types = res.json()
-        if len(task_types) == 0:
-            raise ValueError(f'TaskType({description})이 존재하지 않습니다.')
-        if len(task_types) > 1:
-            raise ValueError(f'TaskType({description})의 이름이 중복되었습니다.')
-        task_type = task_types[0]
+    def create_task_type(self, module_name, function_name, kwargs, description) -> int:
+        """태스크 타입을 생성"""
         res = requests.post(
-            f'{BASE_URL}/api/sdk/task-types/?key={self.key}',
+            f'{BASE_URL}/api/sdk/tasks/?key={self.key}',
             data={
-                'taskType': task_type['id']
+                'moduleName': module_name,
+                'functionName': function_name,
+                'kwargs': kwargs,
+                'description': description
+            }
+        )
+        res.raise_for_status()
+        task_type = res.json()
+        return task_type['id']
+
+    def delete_task_type(self, task_type_id) -> int:
+        """태스크 타입을 삭제"""
+        res = requests.delete(
+            f'{BASE_URL}/api/sdk/task-types/{task_type_id}/?key={self.key}'
+        )
+        res.raise_for_status()
+
+    def create_task(self, task_type_id) -> int:
+        """태스크를 생성"""
+        res = requests.post(
+            f'{BASE_URL}/api/sdk/tasks/?key={self.key}',
+            data={
+                'taskType': task_type_id
             }
         )
         res.raise_for_status()
