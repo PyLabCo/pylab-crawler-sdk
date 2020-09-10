@@ -11,11 +11,11 @@ class Session(object):
             data = res.json()
             if len(data) == 0:
                 raise InterruptedError()
-            if not data['isActive']:
+            if not data[0]['isActive']:
                 raise InterruptedError()
             self.key = key
-            self.group_id = data['group']
-            self.group_name = data['groupName']
+            self.group_id = data[0]['group']
+            self.group_name = data[0]['groupName']
             self.api_server = api_server
         except:
             raise PermissionError(f'API 키({key})가 유효하지 않습니다.')
