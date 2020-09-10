@@ -82,7 +82,7 @@ class Session(object):
         """태스크 타입을 생성"""
         res = requests.post(
             f'{self.api_server}/api/sdk/task-types/?key={self.key}',
-            data={
+            json={
                 'group': self.group_id,
                 'moduleName': f'db.{self.group_name}.{module_name}',
                 'functionName': function_name,
