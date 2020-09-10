@@ -30,7 +30,9 @@ class Session(object):
     def add_log(self, task_id: int, content: str, level=LOG_INFO) -> None:
         """로그를 기록"""
         if not task_id:
+            print(content)
             return
+
         try:
             res = requests.post(f'{self.api_server}/api/sdk/task-logs/?key={self.key}', data={
                 'task': task_id,
@@ -65,6 +67,9 @@ class Session(object):
 
     def is_terminating(self, task_id: int) -> bool:
         """태스크가 종료되어야 하는지 확인"""
+        if not task_id:
+            return False
+
         try:
             res = requests.get(f'{self.api_server}/api/sdk/task-terminations/?key={self.key}&task={task_id}')
             res.raise_for_status()
@@ -76,9 +81,9 @@ class Session(object):
     def create_task_type(self, module_name, function_name, kwargs, description, is_temporary=True) -> int:
         """태스크 타입을 생성"""
         res = requests.post(
-            f'{self.api_server}/api/sdk/tasks/?key={self.key}',
+            f'{self.api_server}/api/sdk/task-types/?key={self.key}',
             data={
-                'moduleName': module_name,
+                'moduleName': f'db.{self.group_name}.{module_name}',
                 'functionName': function_name,
                 'kwargs': kwargs,
                 'description': description,
